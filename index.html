@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Valentine Surprise</title>
 <style>
   body {
@@ -13,12 +13,13 @@
     align-items: center;
     justify-content: center;
     height: 100vh;
-    background: #FFB6C1; /* Light Pink */
+    background: #FFB6C1; 
     font-family: 'Arial', sans-serif;
-    overflow: hidden; /* This keeps the screen still while the button runs */
+    overflow: hidden; /* Prevents the phone from scrolling around */
+    touch-action: manipulation; /* Makes buttons respond faster on phones */
   }
 
-  h1 { color: #CC0000; z-index: 1; } /* Red */
+  h1 { color: #CC0000; padding: 20px; font-size: 24px; }
 
   #yesBtn {
     padding: 15px 30px;
@@ -27,9 +28,8 @@
     color: white;
     border: none;
     border-radius: 10px;
-    cursor: pointer;
     font-weight: bold;
-    z-index: 1;
+    cursor: pointer;
   }
 
   #noBtn {
@@ -39,10 +39,11 @@
     color: #CC0000;
     border: none;
     border-radius: 8px;
-    cursor: pointer;
-    position: fixed; /* Lets it fly anywhere */
-    transition: all 0.1s ease-out; /* Makes the jump look fast */
+    position: fixed;
+    transition: all 0.15s ease-out;
     font-weight: bold;
+    /* This makes sure the button doesn't get stuck under your finger */
+    touch-action: none; 
   }
 </style>
 </head>
@@ -56,9 +57,11 @@
 const noBtn = document.getElementById('noBtn');
 const yesBtn = document.getElementById('yesBtn');
 
-function runAway() {
-    // 1. Random Math: This picks any spot on your screen
-    // We use -50 so it doesn't get stuck under the edge of your browser
+function runAway(e) {
+    // This stops the phone from doing its normal click thing
+    if (e) e.preventDefault(); 
+
+    // Calculate random spots
     const maxX = window.innerWidth - noBtn.offsetWidth;
     const maxY = window.innerHeight - noBtn.offsetHeight;
 
@@ -68,30 +71,31 @@ function runAway() {
     noBtn.style.left = randomX + 'px';
     noBtn.style.top = randomY + 'px';
 
-    // 2. Shrink Math: Makes it 20% smaller every time
+    // Shrink it down to a tiny dot
     let currentWidth = noBtn.offsetWidth;
-    
-    // It will shrink until it is tiny (10 pixels wide!)
-    if (currentWidth > 10) {
-        noBtn.style.width = (currentWidth * 0.8) + 'px';
-        noBtn.style.height = (noBtn.offsetHeight * 0.8) + 'px';
+    if (currentWidth > 15) {
+        noBtn.style.width = (currentWidth * 0.75) + 'px';
+        noBtn.style.height = (noBtn.offsetHeight * 0.75) + 'px';
         
-        // Also makes the "No" text smaller so it fits
         let currentFontSize = parseFloat(window.getComputedStyle(noBtn).fontSize);
         noBtn.style.fontSize = (currentFontSize * 0.8) + 'px';
-        noBtn.style.padding = "2px"; 
+        noBtn.style.padding = "4px"; 
     }
 }
 
-// This makes the button run when the mouse touches it OR if they try to click it
+// MOUSE (for Computers)
 noBtn.addEventListener('mouseenter', runAway);
+
+// TOUCH (for Phones)
+noBtn.addEventListener('touchstart', runAway);
+
+// CLICK (for both)
 noBtn.addEventListener('click', runAway);
 
-// The Happy Ending
 yesBtn.addEventListener('click', () => {
     document.body.innerHTML = `
         <h1 style="color: #CC0000;">Yay! 💖 You made me so happy!</h1>
-        <p style="font-size: 24px;">Happy Valentine's Day! 🌹</p>
+        <p style="font-size: 20px;">Happy Valentine's Day! 🌹</p>
     `;
 });
 </script>
