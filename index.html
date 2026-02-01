@@ -6,90 +6,92 @@
 <title>Valentine Surprise</title>
 <style>
   body {
+    margin: 0;
+    padding: 0;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     height: 100vh;
-    /* This is your Light Pink background */
-    background: #FFB6C1; 
+    background: #FFB6C1; /* Light Pink */
     font-family: 'Arial', sans-serif;
-    text-align: center;
-    overflow: hidden; /* Stops the screen from shaking */
+    overflow: hidden; /* This keeps the screen still while the button runs */
   }
 
-  h1 {
-    /* This is your Red text */
-    color: #CC0000; 
-    text-shadow: 2px 2px white;
-  }
+  h1 { color: #CC0000; z-index: 1; } /* Red */
 
-  button {
+  #yesBtn {
     padding: 15px 30px;
     font-size: 18px;
-    margin: 10px;
+    background-color: #CC0000;
+    color: white;
     border: none;
     border-radius: 10px;
     cursor: pointer;
     font-weight: bold;
-  }
-
-  #yesBtn {
-    /* Red button for Yes */
-    background-color: #CC0000;
-    color: white;
+    z-index: 1;
   }
 
   #noBtn {
-    /* Red button for No */
+    padding: 10px 20px;
+    font-size: 16px;
     background-color: #FFC0CB;
     color: #CC0000;
-    position: absolute;
-    transition: all 0.2s ease; /* Makes it jump smoothly */
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    position: fixed; /* Lets it fly anywhere */
+    transition: all 0.1s ease-out; /* Makes the jump look fast */
+    font-weight: bold;
   }
 </style>
 </head>
 <body>
 
 <h1>Will you be my Valentine? 💖</h1>
-<div id="buttonContainer">
-  <button id="yesBtn">Yes</button>
-  <button id="noBtn">No</button>
-</div>
+<button id="yesBtn">Yes</button>
+<button id="noBtn">No</button>
 
 <script>
 const noBtn = document.getElementById('noBtn');
 const yesBtn = document.getElementById('yesBtn');
 
-// This makes the button jump to a random spot
-function moveButton() {
-    const x = Math.random() * (window.innerWidth - noBtn.offsetWidth);
-    const y = Math.random() * (window.innerHeight - noBtn.offsetHeight);
-    noBtn.style.left = x + 'px';
-    noBtn.style.top = y + 'px';
+function runAway() {
+    // 1. Random Math: This picks any spot on your screen
+    // We use -50 so it doesn't get stuck under the edge of your browser
+    const maxX = window.innerWidth - noBtn.offsetWidth;
+    const maxY = window.innerHeight - noBtn.offsetHeight;
+
+    const randomX = Math.floor(Math.random() * maxX);
+    const randomY = Math.floor(Math.random() * maxY);
+
+    noBtn.style.left = randomX + 'px';
+    noBtn.style.top = randomY + 'px';
+
+    // 2. Shrink Math: Makes it 20% smaller every time
+    let currentWidth = noBtn.offsetWidth;
+    
+    // It will shrink until it is tiny (10 pixels wide!)
+    if (currentWidth > 10) {
+        noBtn.style.width = (currentWidth * 0.8) + 'px';
+        noBtn.style.height = (noBtn.offsetHeight * 0.8) + 'px';
+        
+        // Also makes the "No" text smaller so it fits
+        let currentFontSize = parseFloat(window.getComputedStyle(noBtn).fontSize);
+        noBtn.style.fontSize = (currentFontSize * 0.8) + 'px';
+        noBtn.style.padding = "2px"; 
+    }
 }
 
-// When the mouse (or finger) gets close, it jumps and shrinks!
-noBtn.addEventListener('mouseover', () => {
-    moveButton();
+// This makes the button run when the mouse touches it OR if they try to click it
+noBtn.addEventListener('mouseenter', runAway);
+noBtn.addEventListener('click', runAway);
 
-    // This makes it get smaller and smaller
-    let currentWidth = noBtn.offsetWidth;
-    let currentHeight = noBtn.offsetHeight;
-    if (currentWidth > 40) {
-        noBtn.style.width = (currentWidth * 0.85) + 'px';
-        noBtn.style.height = (currentHeight * 0.75) + 'px';
-       noBtn.style.height = (currentHeight * 0.65) + 'px';
-       noBtn.style.height = (currentHeight * 0.55) + 'px';
-       noBtn.style.height = (currentHeight * 0.55) + 'px';
-        noBtn.style.fontSize = (parseInt(window.getComputedStyle(noBtn).fontSize) * 0.9) + 'px';
-    }
-});
-
-// What happens when they finally click Yes
+// The Happy Ending
 yesBtn.addEventListener('click', () => {
     document.body.innerHTML = `
-        <h1 style="color: #CC0000;">Yay❤️. I know you always choose me🤭❤️. (Or i will make you😌)!</h1>
+        <h1 style="color: #CC0000;">Yay! 💖 You made me so happy!</h1>
+        <p style="font-size: 24px;">Happy Valentine's Day! 🌹</p>
     `;
 });
 </script>
