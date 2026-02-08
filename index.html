@@ -17,136 +17,57 @@
     font-family: 'Arial', sans-serif;
     overflow: hidden;
     touch-action: manipulation;
-    position: relative;
   }
 
   #cuteText {
     color: #FF1493;
-    font-size: 28px;
-    margin-bottom: 15px;
+    font-size: 36px; /* Big and cute */
+    margin-bottom: 20px;
     text-align: center;
   }
 
   h1 { 
     color: #CC0000; 
-    padding: 20px; 
-    font-size: 32px;
+    font-size: 48px; /* Larger main question */
     text-align: center;
+    margin-bottom: 50px;
   }
 
   #yesBtn {
-    padding: 18px 36px;
-    font-size: 22px;
+    padding: 24px 48px; /* Large button */
+    font-size: 28px; /* Large text */
     background-color: #CC0000;
     color: white;
     border: none;
-    border-radius: 12px;
+    border-radius: 14px;
     font-weight: bold;
     cursor: pointer;
-    margin: 10px;
+    transition: transform 0.2s;
   }
 
-  #noBtn {
-    padding: 14px 28px;
-    font-size: 20px;
-    background-color: #FFC0CB;
-    color: #CC0000;
-    border: none;
-    border-radius: 10px;
-    position: fixed;
-    transition: all 0.15s ease-out;
-    font-weight: bold;
-    touch-action: none; 
-  }
-
-  /* Floating Hearts */
-  .heart {
-    position: absolute;
-    color: red;
-    font-size: 20px;
-    user-select: none;
-    pointer-events: none;
-    animation: floatUp linear forwards;
-  }
-
-  @keyframes floatUp {
-    0% {
-      transform: translateY(0) scale(1);
-      opacity: 1;
-    }
-    100% {
-      transform: translateY(-500px) scale(0.5);
-      opacity: 0;
-    }
+  #yesBtn:hover {
+    transform: scale(1.1); /* Slight zoom effect on hover */
   }
 </style>
 </head>
 <body>
 
-<div id="cuteText">inte chekkan endhayalum ingod choykkan ponillaa appo njanenne choykkam😌</div>
-<h1>Will you be my Valentine/shuttu?🤭</h1>
+<div id="cuteText">inte chekkan endhayalum ingod choykkan ponillaa appo njanenne angod choykkaa😌
+<h1>Will you be my Valentine/Shuttu? 🤭</h1>
+<h1> don't look for no button ath avade illaa😌<h1>
 <button id="yesBtn">Yes</button>
-<button id="noBtn">No</button>
 
 <script>
-const noBtn = document.getElementById('noBtn');
 const yesBtn = document.getElementById('yesBtn');
 
-// Make the "No" button run away
-function runAway(e) {
-    if (e) e.preventDefault(); 
-
-    const maxX = window.innerWidth - noBtn.offsetWidth;
-    const maxY = window.innerHeight - noBtn.offsetHeight;
-
-    const randomX = Math.floor(Math.random() * maxX);
-    const randomY = Math.floor(Math.random() * maxY);
-
-    noBtn.style.left = randomX + 'px';
-    noBtn.style.top = randomY + 'px';
-
-    let currentWidth = noBtn.offsetWidth;
-    if (currentWidth > 15) {
-        noBtn.style.width = (currentWidth * 0.75) + 'px';
-        noBtn.style.height = (noBtn.offsetHeight * 0.75) + 'px';
-        
-        let currentFontSize = parseFloat(window.getComputedStyle(noBtn).fontSize);
-        noBtn.style.fontSize = (currentFontSize * 0.8) + 'px';
-        noBtn.style.padding = "6px"; 
-    }
-}
-
-noBtn.addEventListener('mouseenter', runAway);
-noBtn.addEventListener('touchstart', runAway);
-noBtn.addEventListener('click', runAway);
-
-// Yes button click
+// When clicked, show the love message
 yesBtn.addEventListener('click', () => {
     document.body.innerHTML = `
-        <h1 style="color: #CC0000; text-align:center;">
-        Yay❤️. I know you always choose me🤭(or i will make you😌❤️)
+        <h1 style="color: #CC0000; text-align:center; font-size:48px;">
+        Yay❤️. I knew you always choose me😌(cause you have no other options🤭❤️)
         </h1>
     `;
 });
-
-// Floating hearts
-function createHeart() {
-    const heart = document.createElement('div');
-    heart.className = 'heart';
-    heart.innerText = '❤️';
-    heart.style.left = Math.random() * window.innerWidth + 'px';
-    heart.style.fontSize = (10 + Math.random() * 20) + 'px';
-    heart.style.animationDuration = (3 + Math.random() * 3) + 's';
-    document.body.appendChild(heart);
-
-    // Remove heart after animation
-    setTimeout(() => {
-        heart.remove();
-    }, 6000);
-}
-
-// Create hearts continuously
-setInterval(createHeart, 300);
 </script>
 
 </body>
