@@ -15,41 +15,76 @@
     height: 100vh;
     background: #FFB6C1; 
     font-family: 'Arial', sans-serif;
-    overflow: hidden; /* Prevents the phone from scrolling around */
-    touch-action: manipulation; /* Makes buttons respond faster on phones */
+    overflow: hidden;
+    touch-action: manipulation;
+    position: relative;
   }
 
-  h1 { color: #CC0000; padding: 20px; font-size: 24px; }
+  #cuteText {
+    color: #FF1493;
+    font-size: 28px;
+    margin-bottom: 15px;
+    text-align: center;
+  }
+
+  h1 { 
+    color: #CC0000; 
+    padding: 20px; 
+    font-size: 32px;
+    text-align: center;
+  }
 
   #yesBtn {
-    padding: 15px 30px;
-    font-size: 18px;
+    padding: 18px 36px;
+    font-size: 22px;
     background-color: #CC0000;
     color: white;
     border: none;
-    border-radius: 10px;
+    border-radius: 12px;
     font-weight: bold;
     cursor: pointer;
+    margin: 10px;
   }
 
   #noBtn {
-    padding: 10px 20px;
-    font-size: 16px;
+    padding: 14px 28px;
+    font-size: 20px;
     background-color: #FFC0CB;
     color: #CC0000;
     border: none;
-    border-radius: 8px;
+    border-radius: 10px;
     position: fixed;
     transition: all 0.15s ease-out;
     font-weight: bold;
-    /* This makes sure the button doesn't get stuck under your finger */
     touch-action: none; 
+  }
+
+  /* Floating Hearts */
+  .heart {
+    position: absolute;
+    color: red;
+    font-size: 20px;
+    user-select: none;
+    pointer-events: none;
+    animation: floatUp linear forwards;
+  }
+
+  @keyframes floatUp {
+    0% {
+      transform: translateY(0) scale(1);
+      opacity: 1;
+    }
+    100% {
+      transform: translateY(-500px) scale(0.5);
+      opacity: 0;
+    }
   }
 </style>
 </head>
 <body>
 
-<h1>Will you be my Valentine? 💖</h1>
+<div id="cuteText">inte chekkan endhayalum ingod choykkan ponillaa appo njanenne choykkam😌</div>
+<h1>Will you be my Valentine/shuttu?🤭</h1>
 <button id="yesBtn">Yes</button>
 <button id="noBtn">No</button>
 
@@ -57,11 +92,10 @@
 const noBtn = document.getElementById('noBtn');
 const yesBtn = document.getElementById('yesBtn');
 
+// Make the "No" button run away
 function runAway(e) {
-    // This stops the phone from doing its normal click thing
     if (e) e.preventDefault(); 
 
-    // Calculate random spots
     const maxX = window.innerWidth - noBtn.offsetWidth;
     const maxY = window.innerHeight - noBtn.offsetHeight;
 
@@ -71,7 +105,6 @@ function runAway(e) {
     noBtn.style.left = randomX + 'px';
     noBtn.style.top = randomY + 'px';
 
-    // Shrink it down to a tiny dot
     let currentWidth = noBtn.offsetWidth;
     if (currentWidth > 15) {
         noBtn.style.width = (currentWidth * 0.75) + 'px';
@@ -79,24 +112,41 @@ function runAway(e) {
         
         let currentFontSize = parseFloat(window.getComputedStyle(noBtn).fontSize);
         noBtn.style.fontSize = (currentFontSize * 0.8) + 'px';
-        noBtn.style.padding = "4px"; 
+        noBtn.style.padding = "6px"; 
     }
 }
 
-// MOUSE (for Computers)
 noBtn.addEventListener('mouseenter', runAway);
-
-// TOUCH (for Phones)
 noBtn.addEventListener('touchstart', runAway);
-
-// CLICK (for both)
 noBtn.addEventListener('click', runAway);
 
+// Yes button click
 yesBtn.addEventListener('click', () => {
     document.body.innerHTML = `
-        <h1 style="color: #CC0000;">Yay❤️. I know you always choose me!🤭❤️(or i will make you😌)</h1>
+        <h1 style="color: #CC0000; text-align:center;">
+        Yay❤️. I know you always choose me🤭(or i will make you😌❤️)
+        </h1>
     `;
 });
+
+// Floating hearts
+function createHeart() {
+    const heart = document.createElement('div');
+    heart.className = 'heart';
+    heart.innerText = '❤️';
+    heart.style.left = Math.random() * window.innerWidth + 'px';
+    heart.style.fontSize = (10 + Math.random() * 20) + 'px';
+    heart.style.animationDuration = (3 + Math.random() * 3) + 's';
+    document.body.appendChild(heart);
+
+    // Remove heart after animation
+    setTimeout(() => {
+        heart.remove();
+    }, 6000);
+}
+
+// Create hearts continuously
+setInterval(createHeart, 300);
 </script>
 
 </body>
