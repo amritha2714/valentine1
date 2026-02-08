@@ -18,25 +18,26 @@
     flex-direction: column;
     text-align: center;
     color: #CC0000;
+    position: relative;
   }
 
   h1 {
-    font-size: 48px;
-    margin-bottom: 20px;
+    font-size: 72px; /* Much larger */
+    margin: 0 0 20px 0;
   }
 
   h2 {
-    font-size: 32px;
-    margin-bottom: 50px;
+    font-size: 48px; /* Much larger */
+    margin: 0 0 50px 0;
   }
 
   #yesBtn {
-    padding: 24px 48px;
-    font-size: 28px;
+    padding: 30px 60px; /* Bigger button */
+    font-size: 36px;
     background-color: #CC0000;
     color: white;
     border: none;
-    border-radius: 14px;
+    border-radius: 16px;
     font-weight: bold;
     cursor: pointer;
     transition: transform 0.2s;
@@ -46,92 +47,61 @@
     transform: scale(1.1);
   }
 
-  .confetti {
+  .kiss {
     position: absolute;
-    width: 10px;
-    height: 10px;
-    background-color: #fff;
-    opacity: 0.9;
+    font-size: 24px;
     pointer-events: none;
-    transform: rotate(45deg);
+    user-select: none;
   }
 </style>
 </head>
 <body>
 
-<div id="cuteText">inte chekkan endhayalum ingod choykkan ponillaa appo njanenne angod choykkaa😌</div>
-<h1>Will you be my Valentine/Shuttu 🤭</h1>
+<div id="cuteText" style="font-size: 48px; margin-bottom: 30px;">inte chekkan endhayalum choykkan ponillaa athond njanenne choykka😌</div>
+<h1>Will you be my Valentine/Shuttu?🤭</h1>
+<h1> don't look for the no button,ath avade illa😌</h1>
 <button id="yesBtn">Yes</button>
 
 <script>
 const yesBtn = document.getElementById('yesBtn');
 
-// When clicked, show the next page with confetti
 yesBtn.addEventListener('click', () => {
+    // Replace page content
     document.body.innerHTML = `
         <h1>Yay! ❤️</h1>
-        <h2>I knew that you always choose me😌(cause you have no other option🤭❤️)</h2>
-        <canvas id="confettiCanvas"></canvas>
+        <h2>I knew you’d say yes😌(cause you have no other option🤭❤️)</h2>
     `;
 
-    const canvas = document.getElementById('confettiCanvas');
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-    const ctx = canvas.getContext('2d');
+    // Start raining 💋 kisses
+    function createKiss() {
+        const kiss = document.createElement('div');
+        kiss.className = 'kiss';
+        kiss.innerText = '💋';
+        kiss.style.left = Math.random() * window.innerWidth + 'px';
+        kiss.style.fontSize = (30 + Math.random() * 30) + 'px';
+        kiss.style.top = '-50px';
+        document.body.appendChild(kiss);
 
-    // Confetti particles
-    const confettiCount = 150;
-    const confetti = [];
+        const speed = 2 + Math.random() * 3;
+        const tiltSpeed = 0.05 + Math.random() * 0.05;
+        let tilt = 0;
 
-    for(let i=0; i<confettiCount; i++) {
-        confetti.push({
-            x: Math.random() * canvas.width,
-            y: Math.random() * canvas.height - canvas.height,
-            r: Math.random() * 6 + 4,
-            d: Math.random() * confettiCount,
-            color: `hsl(${Math.random()*360}, 100%, 70%)`,
-            tilt: Math.floor(Math.random() * 10) - 10,
-            tiltAngleIncremental: (Math.random() * 0.07) + 0.05,
-            tiltAngle: 0
-        });
-    }
-
-    function draw() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        confetti.forEach(c => {
-            ctx.beginPath();
-            ctx.lineWidth = c.r;
-            ctx.strokeStyle = c.color;
-            ctx.moveTo(c.x + c.tilt + c.r / 2, c.y);
-            ctx.lineTo(c.x + c.tilt, c.y + c.tilt + c.r / 2);
-            ctx.stroke();
-        });
-        update();
-    }
-
-    function update() {
-        confetti.forEach((c, i) => {
-            c.tiltAngle += c.tiltAngleIncremental;
-            c.y += (Math.cos(c.d) + 3 + c.r / 2) / 2;
-            c.x += Math.sin(c.d);
-            c.tilt = Math.sin(c.tiltAngle) * 15;
-
-            if (c.y > canvas.height) {
-                confetti[i] = {
-                    x: Math.random() * canvas.width,
-                    y: -20,
-                    r: c.r,
-                    d: c.d,
-                    color: c.color,
-                    tilt: c.tilt,
-                    tiltAngleIncremental: c.tiltAngleIncremental,
-                    tiltAngle: c.tiltAngle
-                };
+        function fall() {
+            const top = parseFloat(kiss.style.top);
+            if (top > window.innerHeight) {
+                kiss.remove();
+                return;
             }
-        });
+            kiss.style.top = top + speed + 'px';
+            tilt += tiltSpeed;
+            kiss.style.transform = `rotate(${tilt * 360}deg)`;
+            requestAnimationFrame(fall);
+        }
+        fall();
     }
 
-    setInterval(draw, 20);
+    // Make multiple kisses appear continuously
+    setInterval(createKiss, 200);
 });
 </script>
 
