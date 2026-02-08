@@ -23,26 +23,6 @@
     position: relative;
   }
 
-  /* 🌷 Scattered Tulips */
-  .tulip {
-    position: absolute;
-    font-size: 65px;
-    opacity: 0.25;
-    pointer-events: none;
-  }
-
-  /* Random placements */
-  .t1 { top: 5%; left: 10%; }
-  .t2 { top: 15%; left: 70%; }
-  .t3 { top: 30%; left: 40%; }
-  .t4 { top: 50%; left: 15%; }
-  .t5 { top: 60%; left: 80%; }
-  .t6 { top: 75%; left: 30%; }
-  .t7 { top: 85%; left: 65%; }
-  .t8 { top: 25%; left: 85%; }
-  .t9 { top: 40%; left: 5%; }
-  .t10 { top: 10%; left: 45%; }
-
   #cuteText {
     font-size: 50px;
     color: #ff1493;
@@ -73,44 +53,67 @@
   #yesBtn:hover {
     transform: scale(1.08);
   }
+
+  /* 🌷 Tulip Background Style (ONLY for Next Page) */
+  .tulip {
+    position: absolute;
+    font-size: 65px;
+    opacity: 0.25;
+    pointer-events: none;
+  }
+
+  .t1 { top: 5%; left: 10%; }
+  .t2 { top: 15%; left: 70%; }
+  .t3 { top: 30%; left: 40%; }
+  .t4 { top: 50%; left: 15%; }
+  .t5 { top: 60%; left: 80%; }
+  .t6 { top: 75%; left: 30%; }
+  .t7 { top: 85%; left: 65%; }
+  .t8 { top: 25%; left: 85%; }
+  .t9 { top: 40%; left: 5%; }
+  .t10 { top: 10%; left: 45%; }
 </style>
 </head>
 
 <body>
 
-<!-- 🌷 Scattered Background Tulips -->
-<div class="tulip t1">🌷</div>
-<div class="tulip t2">🌷</div>
-<div class="tulip t3">🌷</div>
-<div class="tulip t4">🌷</div>
-<div class="tulip t5">🌷</div>
-<div class="tulip t6">🌷</div>
-<div class="tulip t7">🌷</div>
-<div class="tulip t8">🌷</div>
-<div class="tulip t9">🌷</div>
-<div class="tulip t10">🌷</div>
-
-<!-- Main Content -->
-<div id="cuteText">inte chekkan endhayalum ingod choykkan ponillaa athond njanenne angod choykkaa😌</div>
-<h1>Will you be my Valentine/Shuttu?🤭</h1>
-<h1> don't look for the no button, ath avade illaa😌😁</h1>
-<button id="yesBtn">Yes</button>
+<!-- First Page Content -->
+<div id="cuteText">Inte chekkan endhayalum ingod choykkan ponillaa athond njanenne angod choykkaa😌</div>
+<h1>Will you be my Valentine🤭❤️</h1>
+<h1> don't look for the no button, ath avade illaa😌😁 </h1>
+<button id="yesBtn">Yes!!</button>
 
 <script>
   const yesBtn = document.getElementById("yesBtn");
 
   yesBtn.addEventListener("click", () => {
+
+    // After YES click → Show Surprise Tulip Page
     document.body.innerHTML = `
-      <h1 style="font-size:80px; color:#cc0000;">
-        Yayyy ❤️
+
+      <!-- 🌷 Tulip Background Appears ONLY Here -->
+      <div class="tulip t1">🌷</div>
+      <div class="tulip t2">🌷</div>
+      <div class="tulip t3">🌷</div>
+      <div class="tulip t4">🌷</div>
+      <div class="tulip t5">🌷</div>
+      <div class="tulip t6">🌷</div>
+      <div class="tulip t7">🌷</div>
+      <div class="tulip t8">🌷</div>
+      <div class="tulip t9">🌷</div>
+      <div class="tulip t10">🌷</div>
+
+      <!-- Love Message -->
+      <h1 style="font-size:80px; color:#cc0000; z-index:2;">
+        Yayy❤️
       </h1>
 
-      <h2 style="font-size:55px; color:#ff1493;">
-        i knew that you'll always choose me!😌
+      <h2 style="font-size:55px; color:#ff1493; z-index:2;">
+        i knew you always choose me😌
       </h2>
 
-      <p style="font-size:40px;">
-        (cause you have no other option 🤭❤️)
+      <p style="font-size:40px; z-index:2;">
+        (cause you have no other option🤭❤️)
       </p>
     `;
   });
