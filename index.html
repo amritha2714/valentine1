@@ -2,40 +2,37 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Valentine Surprise</title>
 <style>
   body {
     margin: 0;
     padding: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-    background: #FFB6C1; 
     font-family: 'Arial', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
     overflow: hidden;
-    touch-action: manipulation;
+    background: linear-gradient(135deg, #FFB6C1, #FF69B4);
+    flex-direction: column;
+    text-align: center;
+    color: #CC0000;
   }
 
-  #cuteText {
-    color: #FF1493;
-    font-size: 36px; /* Big and cute */
+  h1 {
+    font-size: 48px;
     margin-bottom: 20px;
-    text-align: center;
   }
 
-  h1 { 
-    color: #CC0000; 
-    font-size: 48px; /* Larger main question */
-    text-align: center;
+  h2 {
+    font-size: 32px;
     margin-bottom: 50px;
   }
 
   #yesBtn {
-    padding: 24px 48px; /* Large button */
-    font-size: 28px; /* Large text */
+    padding: 24px 48px;
+    font-size: 28px;
     background-color: #CC0000;
     color: white;
     border: none;
@@ -46,27 +43,95 @@
   }
 
   #yesBtn:hover {
-    transform: scale(1.1); /* Slight zoom effect on hover */
+    transform: scale(1.1);
+  }
+
+  .confetti {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background-color: #fff;
+    opacity: 0.9;
+    pointer-events: none;
+    transform: rotate(45deg);
   }
 </style>
 </head>
 <body>
 
-<div id="cuteText">inte chekkan endhayalum ingod choykkan ponillaa appo njanenne angod choykkaa😌
-<h1>Will you be my Valentine/Shuttu? 🤭</h1>
-<h1> don't look for no button ath avade illaa😌<h1>
+<div id="cuteText">inte chekkan endhayalum ingod choykkan ponillaa appo njanenne angod choykkaa😌</div>
+<h1>Will you be my Valentine/Shuttu 🤭</h1>
 <button id="yesBtn">Yes</button>
 
 <script>
 const yesBtn = document.getElementById('yesBtn');
 
-// When clicked, show the love message
+// When clicked, show the next page with confetti
 yesBtn.addEventListener('click', () => {
     document.body.innerHTML = `
-        <h1 style="color: #CC0000; text-align:center; font-size:48px;">
-        Yay❤️. I knew you always choose me😌(cause you have no other options🤭❤️)
-        </h1>
+        <h1>Yay! ❤️</h1>
+        <h2>I knew that you always choose me😌(cause you have no other option🤭❤️)</h2>
+        <canvas id="confettiCanvas"></canvas>
     `;
+
+    const canvas = document.getElementById('confettiCanvas');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    const ctx = canvas.getContext('2d');
+
+    // Confetti particles
+    const confettiCount = 150;
+    const confetti = [];
+
+    for(let i=0; i<confettiCount; i++) {
+        confetti.push({
+            x: Math.random() * canvas.width,
+            y: Math.random() * canvas.height - canvas.height,
+            r: Math.random() * 6 + 4,
+            d: Math.random() * confettiCount,
+            color: `hsl(${Math.random()*360}, 100%, 70%)`,
+            tilt: Math.floor(Math.random() * 10) - 10,
+            tiltAngleIncremental: (Math.random() * 0.07) + 0.05,
+            tiltAngle: 0
+        });
+    }
+
+    function draw() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        confetti.forEach(c => {
+            ctx.beginPath();
+            ctx.lineWidth = c.r;
+            ctx.strokeStyle = c.color;
+            ctx.moveTo(c.x + c.tilt + c.r / 2, c.y);
+            ctx.lineTo(c.x + c.tilt, c.y + c.tilt + c.r / 2);
+            ctx.stroke();
+        });
+        update();
+    }
+
+    function update() {
+        confetti.forEach((c, i) => {
+            c.tiltAngle += c.tiltAngleIncremental;
+            c.y += (Math.cos(c.d) + 3 + c.r / 2) / 2;
+            c.x += Math.sin(c.d);
+            c.tilt = Math.sin(c.tiltAngle) * 15;
+
+            if (c.y > canvas.height) {
+                confetti[i] = {
+                    x: Math.random() * canvas.width,
+                    y: -20,
+                    r: c.r,
+                    d: c.d,
+                    color: c.color,
+                    tilt: c.tilt,
+                    tiltAngleIncremental: c.tiltAngleIncremental,
+                    tiltAngle: c.tiltAngle
+                };
+            }
+        });
+    }
+
+    setInterval(draw, 20);
 });
 </script>
 
